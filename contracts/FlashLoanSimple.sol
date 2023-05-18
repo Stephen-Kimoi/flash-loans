@@ -18,4 +18,17 @@ contract FlashloanExample is FlashLoanSimpleReceiverBase {
         
         POOL.flashLoanSimple(receiver, asset, amount, params, referralCode);
     }
+
+    function executeOperation(
+        address asset, 
+        uint256 amount, 
+        uint256 premium, 
+        address initiator, 
+        bytes calldata params
+    ) external returns (bool) {
+        uint256 amountOwing = amount+ premium; 
+        IERC20(asset).approve(address(POOL), amountOwing);
+        emit Log(asset, amountOwing); 
+        return true; 
+    }
 }
